@@ -7,7 +7,7 @@ public class PlayerCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Player != null) {
+        if (Player != null) {
             var position = transform.position;
             var playerPosition = Player.transform.position;
             position = new Vector3(playerPosition.x, playerPosition.y, position.z);

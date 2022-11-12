@@ -1,21 +1,27 @@
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private float _raiseTimer;
     private GameObject _trailPool;
-    private float _modifiedVerticalSpeed;
+    private CancellationTokenSource _resetSpeedCancellationTokenSource;
+
+    public float Speed { get; private set; }
+    public float VerticalSpeed { get; private set; }
 
     [field: SerializeField] public GameObject TrailPrefab { get; set; }
 
-    [field: SerializeField] public float Speed { get; set; }
-    [field: SerializeField] public float VerticalSpeed { get; set; }
+    [field: SerializeField] public float DefaultSpeed { get; set; }
+    [field: SerializeField] public float DefaultVerticalSpeed { get; set; }
+    [field: SerializeField] public float RaiseTimerIntervalInMilliseconds { get; set; }
 
-    public bool Raising => _modifiedVerticalSpeed < 0;
+    public bool Raising => VerticalSpeed < 0;
 
     void Start()
     {
-        _modifiedVerticalSpeed = VerticalSpeed;
+        VerticalSpeed = DefaultVerticalSpeed;
 
         _trailPool = new GameObject("PLAYER TRAIL POOL");
     }
@@ -24,30 +30,34 @@ public class Player : MonoBehaviour
     {
         var position = transform.position;
         var speed = Time.deltaTime * Speed;
-        var verticalSpeed = _modifiedVerticalSpeed * Time.deltaTime;
+        var verticalSpeed = VerticalSpeed * Time.deltaTime;
         position = new Vector3(position.x + speed, position.y - verticalSpeed, position.z);
         transform.position = position;
 
-        var lookDirection = Quaternion.LookRotation(new Vector3(Speed, _modifiedVerticalSpeed).normalized).eulerAngles;
+        var lookDirection = Quaternion.LookRotation(new Vector3(speed, verticalSpeed).normalized).eulerAngles;
         transform.rotation = Quaternion.Euler(0, 0, lookDirection.x);
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+            StartRaise(15);
+
+        if (Input.GetKeyDown(KeyCode.DownArrow))
             StartRaise(-15);
+
+        _raiseTimer -= Time.deltaTime * 1000;
+        if (_raiseTimer <= 0)
+        {
+            VerticalSpeed = DefaultVerticalSpeed;
         }
+
+        Speed = Mathf.Max(0, Mathf.Abs(VerticalSpeed) - DefaultVerticalSpeed) + DefaultSpeed;
 
         SpawnTrail();
     }
 
     public void StartRaise(float amount)
     {
-        _modifiedVerticalSpeed = -amount;
-
-        Task.Run(async () =>
-        {
-            await Task.Delay(2000);
-            _modifiedVerticalSpeed = VerticalSpeed;
-        });
+        _raiseTimer = RaiseTimerIntervalInMilliseconds;
+        VerticalSpeed += -amount;
     }
 
     public void SpawnTrail()

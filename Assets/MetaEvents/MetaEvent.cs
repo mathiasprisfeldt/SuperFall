@@ -7,12 +7,21 @@ public class MetaEvent : MonoBehaviour
     private Vector2 _grabbedPoint;
 
     [field: SerializeField] public SpriteRenderer SpriteRenderer { get; set; }
+    [field: SerializeField] public AudioSource AudioSource { get; set; }
 
     [field: SerializeField] public float RaiseAmount { get; set; }
 
     private void Start()
     {
         SpriteRenderer.color = RaiseAmount > 0 ? Color.green : Color.red;
+    }
+
+    public void Configure(MetaEventData data)
+    {
+        SpriteRenderer.sprite = data.Image;
+
+        if (data.Sound)
+            AudioSource.clip = data.Sound;
     }
 
     void Update()
