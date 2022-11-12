@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
     private GameObject _trailPool;
     private float _modifiedVerticalSpeed;
 
-    [field: SerializeField] public ParticleSystem ParticleSystem { get; set; }
     [field: SerializeField] public GameObject TrailPrefab { get; set; }
 
     [field: SerializeField] public float Speed { get; set; }
@@ -42,7 +41,7 @@ public class Player : MonoBehaviour
 
     public void StartRaise(float amount)
     {
-        _modifiedVerticalSpeed = amount;
+        _modifiedVerticalSpeed = -amount;
 
         Task.Run(async () =>
         {
