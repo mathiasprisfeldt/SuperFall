@@ -525,7 +525,8 @@ MonoBehaviour:
   <MaxRaiseAmount>k__BackingField: 30
   <MetaEventPrefab>k__BackingField: {fileID: 7679697330456873033, guid: db61f8f16b746344ab9a71c44537f436, type: 3}
   <SpawnIntervalInMilliseconds>k__BackingField: 500
-  <MetaEventDatas>k__BackingField: []
+  <MetaEventDatas>k__BackingField:
+  - {fileID: 11400000, guid: 8b384c7aa33fd56489dc271becac4e4b, type: 2}
 --- !u!4 &1295487577
 Transform:
   m_ObjectHideFlags: 0
@@ -576,6 +577,7 @@ MonoBehaviour:
   <DefaultSpeed>k__BackingField: 10
   <DefaultVerticalSpeed>k__BackingField: 10
   <RaiseTimerIntervalInMilliseconds>k__BackingField: 2000
+  <offsetInterval>k__BackingField: 0
 --- !u!4 &1466745304
 Transform:
   m_ObjectHideFlags: 0

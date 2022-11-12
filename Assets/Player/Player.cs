@@ -17,6 +17,10 @@ public class Player : MonoBehaviour
     [field: SerializeField] public float DefaultVerticalSpeed { get; set; }
     [field: SerializeField] public float RaiseTimerIntervalInMilliseconds { get; set; }
 
+    [field: SerializeField] public float offsetInterval { get; set; }
+    private float offsetTimer;
+    private float offset;
+
     public bool Raising => VerticalSpeed < 0;
 
     void Start()
@@ -30,7 +34,7 @@ public class Player : MonoBehaviour
     {
         var position = transform.position;
         var speed = Time.deltaTime * Speed;
-        var verticalSpeed = VerticalSpeed * Time.deltaTime;
+        var verticalSpeed = (VerticalSpeed + offset) * Time.deltaTime;
         position = new Vector3(position.x + speed, position.y - verticalSpeed, position.z);
         transform.position = position;
 
@@ -52,6 +56,13 @@ public class Player : MonoBehaviour
         Speed = Mathf.Max(0, Mathf.Abs(VerticalSpeed) - DefaultVerticalSpeed) + DefaultSpeed;
 
         SpawnTrail();
+
+        offsetTimer -= Time.deltaTime;
+        if (offsetTimer <= 0)
+        {
+            offsetTimer = offsetInterval;
+            offset = Random.Range(-3f, 3f);
+        }
     }
 
     public void StartRaise(float amount)
