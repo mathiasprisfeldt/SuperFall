@@ -446,6 +446,7 @@ MonoBehaviour:
   <TrailPrefab>k__BackingField: {fileID: 2433426720740504096, guid: afe5b3a3728ac9248a4c9ea2744ab8dd, type: 3}
   <Speed>k__BackingField: 5
   <VerticalSpeed>k__BackingField: 5
+  <offsetInterval>k__BackingField: 0.5
 --- !u!4 &1466745304
 Transform:
   m_ObjectHideFlags: 0
