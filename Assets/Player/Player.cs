@@ -3,18 +3,22 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private GameObject _trailPool;
+    private float _modifiedVerticalSpeed;
+
     [field: SerializeField] public ParticleSystem ParticleSystem { get; set; }
+    [field: SerializeField] public GameObject TrailPrefab { get; set; }
 
     [field: SerializeField] public float Speed { get; set; }
     [field: SerializeField] public float VerticalSpeed { get; set; }
-
-    private float _modifiedVerticalSpeed;
 
     public bool Raising => _modifiedVerticalSpeed < 0;
 
     void Start()
     {
         _modifiedVerticalSpeed = VerticalSpeed;
+
+        _trailPool = new GameObject("PLAYER TRAIL POOL");
     }
 
     void Update()
@@ -33,9 +37,7 @@ public class Player : MonoBehaviour
             StartRaise(-15);
         }
 
-        var particleSystemMain = ParticleSystem.main;
-        particleSystemMain.startColor = new ParticleSystem.MinMaxGradient(Raising ? Color.green: Color.red);
-        particleSystemMain.startRotationZ = lookDirection.x;
+        SpawnTrail();
     }
 
     public void StartRaise(float amount)
@@ -47,5 +49,13 @@ public class Player : MonoBehaviour
             await Task.Delay(2000);
             _modifiedVerticalSpeed = VerticalSpeed;
         });
+    }
+
+    public void SpawnTrail()
+    {
+        var newTrailChunk = Instantiate(TrailPrefab, _trailPool.transform);
+        newTrailChunk.transform.position = transform.position;
+        newTrailChunk.transform.rotation = transform.rotation;
+        newTrailChunk.GetComponent<SpriteRenderer>().color = Raising ? Color.green : Color.red;
     }
 }
