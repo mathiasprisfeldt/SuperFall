@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public float WinY = 500;
+    public float WinY = 450;
     public float ShowWinElements = 400;
 
     private bool _isRaiseTimerRunning;
@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
         if (IsWinning)
         {
             _raiseTimer = float.MaxValue;
-            VerticalSpeed = Mathf.Max(VerticalSpeed, DefaultVerticalSpeed);
+            VerticalSpeed = Mathf.Max(VerticalSpeed, -25);
         }
 
         if (ServiceProvider.MetaEventManager.GameIsStarted && _isRaiseTimerRunning)
@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
             _raiseTimer -= Time.deltaTime * 1000;
             if (_raiseTimer <= 0)
             {
-                VerticalSpeed = -10;
+                VerticalSpeed = DefaultVerticalSpeed;
                 ChangeTrailDirection();
                 _isRaiseTimerRunning = false;
             }

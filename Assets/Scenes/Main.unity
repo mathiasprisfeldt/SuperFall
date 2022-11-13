@@ -955,8 +955,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1299825919}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.5557, z: 0}
-  m_LocalScale: {x: 107.41374, y: 40.131447, z: 2.4908574}
+  m_LocalPosition: {x: 0, y: 20.1883, z: 0}
+  m_LocalScale: {x: 182.23814, y: 65.39821, z: 2.4908574}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 750849649}
@@ -1045,6 +1045,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d98aa11f9f38cc4faa92bb411d6f4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WinY: 425
+  ShowWinElements: 400
   <LineRendererPrefab>k__BackingField: {fileID: 3435806253059076557, guid: 63aa7fa5cbba6e24d964c5beeff4df09, type: 3}
   <DefaultSpeed>k__BackingField: 25
   <DefaultVerticalSpeed>k__BackingField: 25
