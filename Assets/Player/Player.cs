@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     private float offsetTimer;
     private float offset;
 
+    public GameObject Logo;
+
     public bool Raising => VerticalSpeed < 0;
 
     void Start()
@@ -63,6 +65,12 @@ public class Player : MonoBehaviour
             offsetTimer = offsetInterval;
             offset = Random.Range(-3f, 3f);
         }
+
+        setLogoPosition();
+    }
+
+    void setLogoPosition() {
+        Logo.transform.position = transform.position;
     }
 
     public void StartRaise(float amount)
