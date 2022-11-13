@@ -54,11 +54,11 @@ public class Player : MonoBehaviour
         var lookDirection = Quaternion.LookRotation(new Vector3(speed, verticalSpeed).normalized).eulerAngles;
         transform.rotation = Quaternion.Euler(0, 0, lookDirection.x);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-            StartRaise(15);
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-            StartRaise(-15);
+        // if (Input.GetKeyDown(KeyCode.UpArrow))
+        //     StartRaise(15);
+        //
+        // if (Input.GetKeyDown(KeyCode.DownArrow))
+        //     StartRaise(-15);
 
         // Player is winning, don't let him fall.
         if (IsWinning)
@@ -137,7 +137,7 @@ public class Player : MonoBehaviour
         _currentTrail.SetPosition(0, transform.position);
 
         var color = DefaultColor;
-        if (VerticalSpeed != 0)
+        if (VerticalSpeed + offset != 0)
             color = Raising ? RaisingColor : DecrasingColor;
 
         _currentTrail.startColor = color;

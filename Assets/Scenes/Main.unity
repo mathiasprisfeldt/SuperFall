@@ -1054,7 +1054,7 @@ MonoBehaviour:
   <RaisingColor>k__BackingField: {r: 0.24110004, g: 0.8113208, b: 0.393483, a: 1}
   <DecrasingColor>k__BackingField: {r: 0.90588236, g: 0.29803923, b: 0.23529412, a: 1}
   <DefaultColor>k__BackingField: {r: 0.9254902, g: 0.9411765, b: 0.94509804, a: 1}
-  <offsetInterval>k__BackingField: 0
+  <offsetInterval>k__BackingField: 0.5
   Logo: {fileID: 2029760378}
   Logos:
   - {fileID: -965502208, guid: 56f9ae186610242f791b1b026966c372, type: 3}
