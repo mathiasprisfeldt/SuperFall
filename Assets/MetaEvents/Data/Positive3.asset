@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Positive3
   m_EditorClassIdentifier: 
   <Image>k__BackingField: {fileID: 21300000, guid: c4722b6b6172b2f44ab91f621383d78c, type: 3}
-  <Sound>k__BackingField: {fileID: 0}
+  <SFX>k__BackingField: {fileID: 8300000, guid: 284085e97f4d446b3ad68939f3687b5a, type: 3}
   <RaiseAmount>k__BackingField: 15

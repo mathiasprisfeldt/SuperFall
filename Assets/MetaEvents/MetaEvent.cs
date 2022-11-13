@@ -10,10 +10,10 @@ public class MetaEvent : MonoBehaviour
     private bool _grabbed;
     private Vector2 _grabbedPoint;
     private float _raiseAmount;
+    private AudioClip _audioClip;
 
     [field: SerializeField] public SpriteRenderer SpriteRenderer { get; set; }
     [field: SerializeField] public SpriteRenderer BorderSpriteRenderer { get; set; }
-    [field: SerializeField] public AudioSource AudioSource { get; set; }
     [field: SerializeField] public SortingGroup SortingGroup { get; set; }
     [field: SerializeField] public SpriteMask SpriteMask { get; set; }
 
@@ -21,10 +21,9 @@ public class MetaEvent : MonoBehaviour
     {
         SpriteRenderer.sprite = data.Image;
 
-        if (data.Sound)
-            AudioSource.clip = data.Sound;
-
+        _audioClip = data.SFX;
         _raiseAmount = data.RaiseAmount;
+
         BorderSpriteRenderer.color = _raiseAmount > 0 ? Color.green : Color.red;
         _initialSortingOrder = SortingOrderCounter++;
         SetSortingOrder(_initialSortingOrder);
@@ -73,6 +72,7 @@ public class MetaEvent : MonoBehaviour
         if (player)
         {
             player.StartRaise(_raiseAmount);
+            ServiceProvider.SoundManager.Play(_audioClip);
             Destroy(gameObject);
         }
     }
