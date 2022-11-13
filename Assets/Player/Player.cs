@@ -76,15 +76,12 @@ public class Player : MonoBehaviour
     void updateLogo() {
         Logo.transform.position = transform.position;
 
-        int newIdx = 0;
-        if (transform.position.y < -50)
-        {
-            newIdx = 1;
-        }
-        else {
-            newIdx = 0;
-		}
-
+        float maxSpriteY = 0;
+        float minSpriteY = -100;
+        float spriteYLength = (maxSpriteY - minSpriteY) / Logos.Count;
+        int newIdx = (int)((maxSpriteY - transform.position.y) / spriteYLength);
+        newIdx = System.Math.Max(System.Math.Min(newIdx, Logos.Count - 1), 0);
+            
         if (newIdx != logogIdx) {
             logogIdx = newIdx;
             LogoSprite.sprite = Logos[logogIdx];
