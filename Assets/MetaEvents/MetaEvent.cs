@@ -72,7 +72,7 @@ public class MetaEvent : MonoBehaviour
         if (player)
         {
             player.StartRaise(_raiseAmount);
-            ServiceProvider.SoundManager.Play(_audioClip);
+            ServiceProvider.SoundManager.PlaySFX(_audioClip);
             Destroy(gameObject);
         }
     }
