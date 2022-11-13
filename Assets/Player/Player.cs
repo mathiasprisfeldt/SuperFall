@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class Player : MonoBehaviour
     private float offset;
 
     public GameObject Logo;
+    public List<Sprite> Logos;
+    public SpriteRenderer LogoSprite;
+    private int logogIdx = 0;
 
     public bool Raising => VerticalSpeed < 0;
 
@@ -66,11 +70,25 @@ public class Player : MonoBehaviour
             offset = Random.Range(-3f, 3f);
         }
 
-        setLogoPosition();
+        updateLogo();
     }
 
-    void setLogoPosition() {
+    void updateLogo() {
         Logo.transform.position = transform.position;
+
+        int newIdx = 0;
+        if (transform.position.y < -50)
+        {
+            newIdx = 1;
+        }
+        else {
+            newIdx = 0;
+		}
+
+        if (newIdx != logogIdx) {
+            logogIdx = newIdx;
+            LogoSprite.sprite = Logos[logogIdx];
+		}
     }
 
     public void StartRaise(float amount)
