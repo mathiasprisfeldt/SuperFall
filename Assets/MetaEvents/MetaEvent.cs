@@ -6,16 +6,19 @@ public class MetaEvent : MonoBehaviour
 {
     public static int SortingOrderCounter = 1;
 
+    private float _destroyTimer;
     private int _initialSortingOrder;
     private bool _grabbed;
     private Vector2 _grabbedPoint;
     private float _raiseAmount;
     private AudioClip _audioClip;
+    private bool _isBeingDestroyed;
 
     [field: SerializeField] public SpriteRenderer SpriteRenderer { get; set; }
     [field: SerializeField] public SpriteRenderer BorderSpriteRenderer { get; set; }
     [field: SerializeField] public SortingGroup SortingGroup { get; set; }
     [field: SerializeField] public SpriteMask SpriteMask { get; set; }
+    [field: SerializeField] public Animator Animator { get; set; }
 
     public void Configure(MetaEventData data)
     {
@@ -24,7 +27,8 @@ public class MetaEvent : MonoBehaviour
         _audioClip = data.SFX;
         _raiseAmount = data.RaiseAmount;
 
-        BorderSpriteRenderer.color = _raiseAmount > 0 ? Color.green : Color.red;
+        BorderSpriteRenderer.color =
+            _raiseAmount > 0 ? ServiceProvider.Player.RaisingColor : ServiceProvider.Player.DecrasingColor;
         _initialSortingOrder = SortingOrderCounter++;
         SetSortingOrder(_initialSortingOrder);
     }
@@ -51,11 +55,21 @@ public class MetaEvent : MonoBehaviour
         {
             transform.position = new Vector3(mousePosInWorldSpace.x - _grabbedPoint.x, mousePosInWorldSpace.y - _grabbedPoint.y);
         }
+
+        if (_isBeingDestroyed)
+        {
+            _destroyTimer += Time.deltaTime;
+            transform.position = transform.position.Lerp(ServiceProvider.Player.transform.position, _destroyTimer);
+            transform.localScale = transform.localScale.Lerp(Vector3.zero, _destroyTimer);
+
+            if (_destroyTimer >= 1)
+                Destroy(gameObject);
+        }
     }
 
     private void CheckIfGrabbed()
     {
-        if (_grabbed) return;
+        if (_grabbed || _isBeingDestroyed) return;
 
         var raycastHit = Physics2D.GetRayIntersection(Camera.main.ScreenPointToRay(Input.mousePosition));
         if (raycastHit && raycastHit.transform.gameObject == gameObject && Input.GetMouseButtonDown(0))
@@ -73,7 +87,9 @@ public class MetaEvent : MonoBehaviour
         {
             player.StartRaise(_raiseAmount);
             ServiceProvider.SoundManager.PlaySFX(_audioClip);
-            Destroy(gameObject);
+            _isBeingDestroyed = true;
+            _grabbed = false;
+            Animator.enabled = false;
         }
     }
 }

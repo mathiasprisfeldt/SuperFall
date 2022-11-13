@@ -47,6 +47,9 @@ TagManager:
   - name: MetaEvents
     uniqueID: 1900122497
     locked: 0
-  - name: New Layer 3
+  - name: Foreground
+    uniqueID: 3103804157
+    locked: 0
+  - name: Player
     uniqueID: 1494390527
     locked: 0

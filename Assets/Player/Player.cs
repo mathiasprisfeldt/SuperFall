@@ -1,19 +1,19 @@
-using System.Threading;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public float WinY = 500;
+    public float ShowWinElements = 400;
+
+    private bool _isRaiseTimerRunning;
     private LineRenderer _currentTrail;
     private float _raiseTimer;
-    private GameObject _trailPool;
-    private CancellationTokenSource _resetSpeedCancellationTokenSource;
 
     public float Speed { get; private set; }
     public float VerticalSpeed { get; private set; }
 
-    [field: SerializeField] public GameObject TrailPrefab { get; set; }
     [field: SerializeField] public GameObject LineRendererPrefab { get; set; }
 
     [field: SerializeField] public float DefaultSpeed { get; set; }
@@ -34,12 +34,11 @@ public class Player : MonoBehaviour
     private int logogIdx = 0;
 
     public bool Raising => VerticalSpeed < 0;
+    public bool IsWinning => transform.position.y > ShowWinElements;
 
     void Start()
     {
         VerticalSpeed = 0;
-
-        _trailPool = new GameObject("PLAYER TRAIL POOL");
 
         ChangeTrailDirection();
     }
@@ -61,19 +60,25 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow))
             StartRaise(-15);
 
-        if (ServiceProvider.MetaEventManager.GameIsStarted)
+        // Player is winning, don't let him fall.
+        if (IsWinning)
+        {
+            _raiseTimer = float.MaxValue;
+            VerticalSpeed = Mathf.Max(VerticalSpeed, DefaultVerticalSpeed);
+        }
+
+        if (ServiceProvider.MetaEventManager.GameIsStarted && _isRaiseTimerRunning)
         {
             _raiseTimer -= Time.deltaTime * 1000;
             if (_raiseTimer <= 0)
             {
-                VerticalSpeed = DefaultVerticalSpeed;
+                VerticalSpeed = -10;
                 ChangeTrailDirection();
+                _isRaiseTimerRunning = false;
             }
         }
 
         Speed = Mathf.Max(0, Mathf.Abs(VerticalSpeed) - DefaultVerticalSpeed) + DefaultSpeed;
-
-        // SpawnTrail();
 
         offsetTimer -= Time.deltaTime;
         if (offsetTimer <= 0)
@@ -87,7 +92,15 @@ public class Player : MonoBehaviour
         if (transform.position.y < -150)
             GameOver();
 
+        if (transform.position.y > WinY)
+            Win();
+
         _currentTrail.SetPosition(1, transform.position);
+    }
+
+    private void Win()
+    {
+        SceneManager.LoadScene("WinScene");
     }
 
     private void GameOver()
@@ -110,9 +123,12 @@ public class Player : MonoBehaviour
 
     public void StartRaise(float amount)
     {
+        if (IsWinning) return;
+
         _raiseTimer = RaiseTimerIntervalInMilliseconds;
         VerticalSpeed += -amount;
         ChangeTrailDirection();
+        _isRaiseTimerRunning = true;
     }
 
     private void ChangeTrailDirection()
@@ -126,19 +142,6 @@ public class Player : MonoBehaviour
 
         _currentTrail.startColor = color;
         _currentTrail.endColor = color;
-    }
-
-    public void SpawnTrail()
-    {
-        var newTrailChunk = Instantiate(TrailPrefab, _trailPool.transform);
-        newTrailChunk.transform.position = transform.position;
-        newTrailChunk.transform.rotation = transform.rotation;
-
-        var color = DefaultColor;
-        if (VerticalSpeed != 0)
-            color = Raising ? RaisingColor : DecrasingColor;
-
-        newTrailChunk.GetComponent<SpriteRenderer>().color = color;
     }
 
     public void StartGame()

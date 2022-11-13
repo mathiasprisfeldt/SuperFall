@@ -26,8 +26,8 @@ public class StockXAxis : MonoBehaviour
     // Update is called once per frame
     void Start()
     {
-        var worldMinX = -1500;
-        var worldMaxX = 1500;
+        var worldMinX = 0;
+        var worldMaxX = 3000;
         var incrementor = 10;
         var currentMonthIndex = 0;
 
@@ -50,7 +50,7 @@ public class StockXAxis : MonoBehaviour
         YearText.rectTransform.GetWorldCorners(yearTextWorldCorners);
 
         var xScreenMiddle = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, 0, Camera.main.nearClipPlane)).x;
-        var currentYear = Mathf.FloorToInt((ServiceProvider.Player.transform.position.x + 60) / 120);
+        var currentYear = Mathf.FloorToInt((ServiceProvider.Player.transform.position.x) / 120);
         YearText.text = (2022 + currentYear).ToString();
         var widthOffset = (yearTextWorldCorners[3] - yearTextWorldCorners[0]) / 4;
         YearText.transform.position = new Vector3(xScreenMiddle + widthOffset.x, YearText.transform.position.y);

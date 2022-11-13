@@ -222,6 +222,7 @@ MonoBehaviour:
   <BorderSpriteRenderer>k__BackingField: {fileID: 7149283601337622218}
   <SortingGroup>k__BackingField: {fileID: 5089692695044971332}
   <SpriteMask>k__BackingField: {fileID: 7946636012606583717}
+  <Animator>k__BackingField: {fileID: 1838244206239116506}
 --- !u!61 &7679697330456873029
 BoxCollider2D:
   m_ObjectHideFlags: 0
