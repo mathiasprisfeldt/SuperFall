@@ -1,20 +1,21 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class MetaEvent : MonoBehaviour
 {
+    public static int SortingOrderCounter = 1;
+
+    private int _initialSortingOrder;
     private bool _grabbed;
     private Vector2 _grabbedPoint;
+    private float _raiseAmount;
 
     [field: SerializeField] public SpriteRenderer SpriteRenderer { get; set; }
+    [field: SerializeField] public SpriteRenderer BorderSpriteRenderer { get; set; }
     [field: SerializeField] public AudioSource AudioSource { get; set; }
-
-    [field: SerializeField] public float RaiseAmount { get; set; }
-
-    private void Start()
-    {
-        SpriteRenderer.color = RaiseAmount > 0 ? Color.green : Color.red;
-    }
+    [field: SerializeField] public SortingGroup SortingGroup { get; set; }
+    [field: SerializeField] public SpriteMask SpriteMask { get; set; }
 
     public void Configure(MetaEventData data)
     {
@@ -22,6 +23,17 @@ public class MetaEvent : MonoBehaviour
 
         if (data.Sound)
             AudioSource.clip = data.Sound;
+
+        _raiseAmount = data.RaiseAmount;
+        BorderSpriteRenderer.color = _raiseAmount > 0 ? Color.green : Color.red;
+        _initialSortingOrder = SortingOrderCounter++;
+        SetSortingOrder(_initialSortingOrder);
+    }
+
+    private void SetSortingOrder(int sortingOrder)
+    {
+        SortingGroup.sortingOrder = sortingOrder;
+        SpriteMask.frontSortingOrder = sortingOrder;
     }
 
     void Update()
@@ -33,6 +45,7 @@ public class MetaEvent : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             _grabbed = false;
+            SetSortingOrder(_initialSortingOrder);
         }
 
         if (_grabbed)
@@ -50,6 +63,7 @@ public class MetaEvent : MonoBehaviour
         {
             _grabbed = true;
             _grabbedPoint = transform.InverseTransformPoint(raycastHit.point);
+            SetSortingOrder(9999);
         }
     }
 
@@ -58,7 +72,7 @@ public class MetaEvent : MonoBehaviour
         var player = col.GetComponent<Player>();
         if (player)
         {
-            player.StartRaise(RaiseAmount);
+            player.StartRaise(_raiseAmount);
             Destroy(gameObject);
         }
     }

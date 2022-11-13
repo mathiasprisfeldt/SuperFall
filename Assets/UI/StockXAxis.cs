@@ -53,7 +53,6 @@ public class StockXAxis : MonoBehaviour
         var currentYear = Mathf.FloorToInt((ServiceProvider.Player.transform.position.x + 60) / 120);
         YearText.text = (2022 + currentYear).ToString();
         var widthOffset = (yearTextWorldCorners[3] - yearTextWorldCorners[0]) / 4;
-        Debug.Log(widthOffset);
         YearText.transform.position = new Vector3(xScreenMiddle + widthOffset.x, YearText.transform.position.y);
     }
 
