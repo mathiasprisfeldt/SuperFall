@@ -1045,6 +1045,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d98aa11f9f38cc4faa92bb411d6f4ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WinY: 500
+  ShowWinElements: 400
   <LineRendererPrefab>k__BackingField: {fileID: 3435806253059076557, guid: 63aa7fa5cbba6e24d964c5beeff4df09, type: 3}
   <DefaultSpeed>k__BackingField: 25
   <DefaultVerticalSpeed>k__BackingField: 25
@@ -1052,7 +1054,7 @@ MonoBehaviour:
   <RaisingColor>k__BackingField: {r: 0.24110004, g: 0.8113208, b: 0.393483, a: 1}
   <DecrasingColor>k__BackingField: {r: 0.90588236, g: 0.29803923, b: 0.23529412, a: 1}
   <DefaultColor>k__BackingField: {r: 0.9254902, g: 0.9411765, b: 0.94509804, a: 1}
-  <offsetInterval>k__BackingField: 0
+  <offsetInterval>k__BackingField: 0.5
   Logo: {fileID: 2029760378}
   Logos:
   - {fileID: -965502208, guid: 56f9ae186610242f791b1b026966c372, type: 3}

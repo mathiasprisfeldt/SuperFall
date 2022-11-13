@@ -85,6 +85,7 @@ public class Player : MonoBehaviour
         {
             offsetTimer = offsetInterval;
             offset = Random.Range(-3f, 3f);
+            ChangeTrailDirection();
         }
 
         updateLogo();
@@ -137,7 +138,7 @@ public class Player : MonoBehaviour
         _currentTrail.SetPosition(0, transform.position);
 
         var color = DefaultColor;
-        if (VerticalSpeed != 0)
+        if (VerticalSpeed + offset != 0)
             color = Raising ? RaisingColor : DecrasingColor;
 
         _currentTrail.startColor = color;
