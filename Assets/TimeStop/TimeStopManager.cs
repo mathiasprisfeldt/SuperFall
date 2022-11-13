@@ -10,6 +10,8 @@ public class TimeStopManager : MonoBehaviour
 
     void Update()
     {
+        if (!ServiceProvider.MetaEventManager.GameIsStarted) return;
+
         var currentMousePosition = Input.mousePosition;
         var mousePositionDelta = _previousMousePosition - currentMousePosition;
         var targetTimeScale = mousePositionDelta.magnitude.Map(0, MaxMagnitude, MinimumTimeScale, MaximumTimeScale);

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Image>k__BackingField: {fileID: 21300000, guid: c4722b6b6172b2f44ab91f621383d78c, type: 3}
   <SFX>k__BackingField: {fileID: 8300000, guid: 537416568f82d41c6a8e7a44b18c1a43, type: 3}
-  <RaiseAmount>k__BackingField: 15
+  <RaiseAmount>k__BackingField: -15
